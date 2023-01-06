@@ -50,14 +50,16 @@ The following settings can be made in the widget:
 * Title
 * Content Type (Default: post )
 * Category (when content type post is select)
-* Amount (default: 5)
-* Show calls (default: No)
+* Amount of entries (default: 5)
+* Show views (default: No)
 * Custom text (Replace variable for views: %VIEWS%)
-* Number of past days
+* Number of past days (0 days = all statistics)
 
 = Support =
 
-Friendly questions about the widget I like to answer under *Support*.
+Friendly questions about the widget I like to answer under [Support](https://wordpress.org/support/plugin/statify-widget/). 
+
+If you like my work and want to support *me*, feel free to [rate](https://de.wordpress.org/plugins/statify-widget/#reviews) this plugin!
 
 = Author =
 
@@ -67,7 +69,7 @@ Friendly questions about the widget I like to answer under *Support*.
 == Installation ==
 
 1. Install the "[Statify](http://wordpress.org/plugins/statify/)" by pluginkollektiv.
-1. Install Plugin "Statify Widget" and activate it.
+1. Install this Plugin "Statify Widget" and activate it.
 1. Activate the *Popular Post Widget* under widgets.
 
 == Frequently Asked Questions ==
@@ -78,15 +80,25 @@ Statify has not added statistics yet. Wait some days to collect some statistics 
 
 = Show pages and posts together =
 
-Yes! Since 1.1.4 that works. Just in the content type widget: select "Pages and posts". He then displays the default content types "post" and "page" together.
+Yes! Since 1.1.4 that works.
+
+Just in the content type widget: select *Pages and posts*. He then displays the default content types "post" and "page" together.
 
 = Show views in pages and posts =
 
-This is possible with the shortcode and theme functions. Specifying a prefix and suffix is ​​not mandatory:
+This is possible with shortcodes. Specifying a prefix and suffix is ​​not mandatory:
+
+Properties:
+
+* `days` = Amount of days
+* `prefix`= Text before the view count
+* `suffix`= Text after the view count
+
+Shortcode: 
 
 `[statify-count prefix ="Total" suffix ="calls." days="8"]`
 
-The total views of the page :
+The total view counter for the whole webpage:
 
 `[statify-count-sum prefix="Total" suffix="calls."]`
 
@@ -96,19 +108,19 @@ No problem. A pseudo "Frontpage" (with views) entry appears.
 
 = I changed the permalink structure =
 
-This changes nothing. The plugin takes every Statify entry and adds it together sensibly.
+This changes nothing. The plugin takes every Statify entry and adds it together.
 
 = Change design (CSS) =
 
 Just use these CSS classes:
-* `.statify-widget-list {...}` Whole *ol*-list
-* `.statify-widget-element {...}` Each *li*-Element
-* `..statify-widget-element span` View Counter
-* `.statify-widget-link {...}` Each link of the widget
+* List: `.statify-widget-list {...}`
+* List item: `.statify-widget-element {...}`
+* List item view counter: `.statify-widget-element span {...}`
+* List item link: `.statify-widget-link {...}`
 
 = Change list from numeric to points =
 
-If you want to change the list of contents (1st, 2nd, 3rd, ...) to bullets, just add the following to the CSS:
+If you want to change the list of contents (1st, 2nd, 3rd, ...) to bullets, just add the following to your CSS:
 
 `.statify-widget-element {
     list-style-type: circle;
@@ -116,9 +128,10 @@ If you want to change the list of contents (1st, 2nd, 3rd, ...) to bullets, just
 
 = ADVANCED: Change Widget Template =
 
-Since 1.3.8 it is possible to customize the Widget Template. You can use the [WP Post Object](https://developer.wordpress.org/reference/classes/wp_post/) in the template to hook content **before** and **after** the links in the widgets.
+Since 1.3.8 it is possible to customize the Widget Template by adding code to your Template `functions.php`. You can use the [WP Post Object](https://developer.wordpress.org/reference/classes/wp_post/) in the template.
 
-There exists to hooks:
+There exists two hooks:
+
 * `statify_widget_before_link`
 * `statify_widget_after_link`
 
@@ -139,22 +152,27 @@ For example put this in your theme:
 `
 <?php
     if(function_exists('statify_popular_posts')) {
-        statify_popular_posts(
-            $amount = 5,
-            $days = 30,
-            $post_type = 'post',
-            $post_category = 0
+        &#36;wp_query = statify_popular_posts(
+            &#36;amount = 5,
+            &#36;days = 30,
+            &#36;post_type = 'post',
+            &#36;post_category = 0
         );
+        
+        // Make WP Post loop...
+        while ( &#36;wp_query->have_posts() ) {
+                &#36; wp_query->the_post();
+        }
     }
 ?>
 `
 
 Properties
 
-* `$days` Range of days for statictics (0 = all days)
-* `$amount` Amount of posts
-* `$post_type` Post type ("post", "page", ...)
-* `$post_category` Category of the post, if post type is choosen
+* `&#36;days` = Range of days for statictics (0 = all days)
+* `&#36;amount` = Amount of posts
+* `&#36;post_type` = Post type ("post", "page", ...)
+* `&#36;post_category` = Category of the post, if post type is choosen
 
 == Screenshots ==
 
