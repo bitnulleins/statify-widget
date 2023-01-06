@@ -12,20 +12,21 @@ The Statify widget shows the most popular content from Statify plugin made by pl
 
 ## Features
 
-Own content types
-Intelligent summary
-New: perdio selectable
-Calls of individual contents
-Settings
+* Own content types
+* Intelligent summary
+* Time range selectable
+* Calls of individual contents
+* Custom templating
+* Settings
 
 ## The following settings can be made in the widget:
 
-Title
-Content Type (Default: post )
-Category (when content type post is select)
-Amount (default: 5)
-Show calls (default: No)
-Number of past days
+* Title
+* Content Type (Default: post )
+* Category (when content type post is select)
+* Amount (default: 5)
+* Show calls (default: No)
+* Number of past days
 
 ## Support
 
