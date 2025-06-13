@@ -149,6 +149,30 @@ final class Statify_Post {
 	public $post_parent = 0;
 
 	/**
+	 * Views of a post's parent post.
+	 *
+	 * @since 1.3.9
+	 * @var int
+	 */
+	public $post_views = 0;
+	
+	/**
+	 * Permalink of a post's parent post.
+	 *
+	 * @since 1.3.9
+	 * @var string
+	 */
+	public $post_permalink = '';
+	
+	/**
+	 * Suffix of a post's parent post.
+	 *
+	 * @since 1.3.9
+	 * @var string
+	 */
+	public $post_suffix = '';
+	
+	/**
 	 * The unique identifier for a post, not necessarily a URL, used as the feed GUID.
 	 *
 	 * @since 1.3.1
@@ -194,17 +218,28 @@ final class Statify_Post {
 	 * Constructor.
 	 *
 	 * @since 3.5.0
+	 * @change 1.3.9
 	 *
 	 * @param WP_Post|object $post Post object.
 	 */
-	public function __construct( $post, $views ) {
-		foreach ( get_object_vars( $post ) as $key => $value ) {
-			$this->$key = $value;
+	public function __construct( $post_id, $views ) {
+		if ($post_id > 0) {
+			$post = get_page($post_id);
+			foreach ( get_object_vars( $post ) as $key => $value ) {
+				if (property_exists($this, $key)) {
+					$this->$key = $value;
+				}
+			}
+			$this->post_permalink = get_permalink($post->ID);
+		} else {
+			// Manipulate Frontpage Post (ID==0) to fix values
+			$this->post_title = __('Frontpage','statify-widget');
+			$this->post_permalink = get_home_url();
 		}
 		
-		// Default
+		
+		// Default both attributes
 		$this->post_views = $views;
-		$this->post_permalink = get_permalink($post->ID);
 	}
 
 	/**

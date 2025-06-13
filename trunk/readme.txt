@@ -2,7 +2,7 @@
 Contributors: 		bitnulleins
 Tags: 			    statify, widget, popular posts, custom post types, wordpress, analytics, privacy, statistics
 Requires at least: 	4.6
-Tested up to: 		6.1.1
+Tested up to: 		6.8.1
 Requires PHP: 		5.2.4
 Stable tag: 		trunk
 License: 		    GPLv2 or later
@@ -181,6 +181,15 @@ Properties
 
 
 == Changelog ==
+
+= 1.3.9 =
+
+* Correction of the totals of views from Statify data (if a page is selected as the start page, the views of the start page and the selected page are combined). The “Blog” page is now recorded independently
+* Support for up to PHP 8.4 enabled
+* Text display if no posts exist yet included in translation
+* Conversion of the interval calculation from PHP UTC to the selected WordPress time zone
+* Correction of the total sum in the shortcode (was always one too few)
+* Change of the relation in the SQL statement from “greater than or equal to” to “really greater”
 
 = 1.3.8 =
 

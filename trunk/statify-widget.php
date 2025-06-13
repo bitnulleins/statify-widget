@@ -6,7 +6,7 @@ Text Domain: statify-widget
 Author: Finn Dohrn
 Author URI: http://www.bit01.de/
 Plugin URI: http://www.bit01.de/blog/statify-widget/
-Version: 1.3.8
+Version: 1.3.9
 */
 
 require( 'Statify_Post.class.php' );
@@ -117,7 +117,7 @@ class StatifyWidget extends WP_Widget {
 		$instance = array();
 		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? sanitize_text_field( $new_instance['title'] ) : '';
 		$instance['post_type'] = ( ! empty( $new_instance['post_type'] ) ) ? $new_instance['post_type'] : DEFAULT_POST_TYPE;
-		if(! empty( $new_instance['interval'] ) && $new_instance['interval'] != $old_instance['interval']) {
+		if(! empty ( $old_instance['interval'] )) {
 			delete_transient('statify_targets_'.$old_instance['interval']);
 		}
 		$instance['interval'] = ( ! empty( $new_instance['interval'] ) ) ? $new_instance['interval'] : DEFAULT_INTERVAL;
@@ -135,7 +135,7 @@ class StatifyWidget extends WP_Widget {
 	function statify_widget_template($posts) {
 	?>
 			<?php if ( empty($posts) ): ?>
-			<p><?php __( 'There are no posts yet.','statify-widget' ) ?></p>
+			<p><?php echo __( 'There are no posts yet.','statify-widget' ) ?></p>
 			<?php else: ?>
 
 			<ol class="statify-widget-list">
