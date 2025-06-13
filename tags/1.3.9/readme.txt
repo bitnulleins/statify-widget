@@ -182,10 +182,6 @@ Properties
 
 == Changelog ==
 
-= 1.4.0 =
-
-* New major version.
-
 = 1.3.9 =
 
 * Correction of the totals of views from Statify data (if a page is selected as the start page, the views of the start page and the selected page are combined). The “Blog” page is now recorded independently
