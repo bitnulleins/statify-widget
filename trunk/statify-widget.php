@@ -45,7 +45,7 @@ class StatifyWidget extends WP_Widget {
 			'interval' => DEFAULT_INTERVAL,
 			'show_visits' => 0,
 			'list_style_type' => "ol",
-			'suffix' => __('%VIEWS% views','statify-widget'),
+			'suffix' => __("%VIEWS% views",'statify-widget'),
 			'post_category' => 0) );
 
     	$title = $instance['title'];
@@ -86,10 +86,10 @@ class StatifyWidget extends WP_Widget {
         </select>
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id('interval'); ?>"><?php _e( 'Last ','statify-widget'); ?>
+			<label for="<?php echo $this->get_field_id('interval'); ?>"><?php _e( 'Amount of days:','statify-widget'); ?>
 				<input id="<?php echo $this->get_field_id('interval'); ?>" name="<?php echo $this->get_field_name('interval'); ?>" type="text" size="3" value="<?php echo esc_attr($interval); ?>" />
-			</label><?php _e( ' days. (If enough stats exists)','statify-widget'); ?>
-			<br /><small><?php _e( '0 days = show all items','statify-widget'); ?></small>
+			</label>
+			<small><?php _e( '0 days = show all items','statify-widget'); ?></small>
 		</p>
         <p>
           <label for="<?php echo $this->get_field_id('amount'); ?>"><?php _e( 'Amounts:','statify-widget'); ?>
@@ -117,7 +117,7 @@ class StatifyWidget extends WP_Widget {
 		$instance = array();
 		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? sanitize_text_field( $new_instance['title'] ) : '';
 		$instance['post_type'] = ( ! empty( $new_instance['post_type'] ) ) ? $new_instance['post_type'] : DEFAULT_POST_TYPE;
-		if(! empty ( $old_instance['interval'] )) {
+		if(! empty( $new_instance['interval'] ) && $new_instance['interval'] != $old_instance['interval']) {
 			delete_transient('statify_targets_'.$old_instance['interval']);
 		}
 		$instance['interval'] = ( ! empty( $new_instance['interval'] ) ) ? $new_instance['interval'] : DEFAULT_INTERVAL;
@@ -135,7 +135,7 @@ class StatifyWidget extends WP_Widget {
 	function statify_widget_template($posts) {
 	?>
 			<?php if ( empty($posts) ): ?>
-			<p><?php echo __( 'There are no posts yet.','statify-widget' ) ?></p>
+			<p><?php __( 'There are no posts yet.','statify-widget' ) ?></p>
 			<?php else: ?>
 
 			<ol class="statify-widget-list">
