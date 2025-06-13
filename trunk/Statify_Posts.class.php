@@ -6,7 +6,7 @@ Text Domain: statify-widget
 Author: Finn Dohrn
 Author URI: http://www.bit01.de/
 Plugin URI: http://www.bit01.de/blog/statify-widget/
-Version: 1.3.8
+Version: 1.3.9
 */
 
 require( 'Statify_Post.class.php' );
