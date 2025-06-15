@@ -1,6 +1,6 @@
 === Statify Widget ===
 Contributors: 		bitnulleins
-Tags: 			    statify, widget, popular posts, custom post types, wordpress, analytics, privacy, statistics
+Tags: 			    statify, widget, popular posts, privacy, stats
 Requires at least: 	4.6
 Tested up to: 		6.8.1
 Requires PHP: 		5.2.4
@@ -8,11 +8,11 @@ Stable tag: 		trunk
 License: 		    GPLv2 or later
 License URI: 		http://www.gnu.org/licenses/gpl-2.0.html
 
-Widget for list popular content (pages, posts, custom post types) – based on Statify plugin.
+Data privacy conform widget for list popular content (pages, posts, custom post types) – based on Statify plugin.
 
 == Description ==
 
-The *Statify Widget* shows the most popular content from [Statify](http://wordpress.org/plugins/statify/) plugin made by pluginkollektiv. Fast and clear!
+The *Statify Widget* shows the most popular content from the [Statify](http://wordpress.org/plugins/statify/) plugin, which collects statistics in compliance with data protection regulations. Fast and clear!
 
 = What is Statify? =
 
@@ -27,7 +27,8 @@ Statify is a plugin for visitor statistics with emphasis on privacy, transparenc
 * **Custom Post Types**: Statify Widget supports custom post types, that can be displayed
 * **Intelligent summary**: Once there are different paths to a content, the widget adds them together 
 * **Period Selectable**: It is possible to choose an individual daily period for the post popular content
-* **New: Custom Widget Template**: Now, you can add individual post/page paramater to widget template (see FAQ)
+* **Custom Widget Template**: You can add individual post/page paramater to widget template (see FAQ)
+* **New: Customize cache time**: Change default 4 minutes cache time to another value! (see FAQ)
 
 = Shortcode =
 
@@ -77,6 +78,18 @@ If you like my work and want to support *me*, feel free to [rate](https://de.wor
 = Error: The widget does not find any entries =
 
 Statify has not added statistics yet. Wait some days to collect some statistics by Statify.
+
+= Can I change the default cache expiry time? =
+
+Yes! Since 1.4.1 you can add the following filter to change the **default 4 minutes cache** (`60 * 4`) to another value in seconds:
+
+`function cache_seconds() {
+    return 60 * 4;
+}
+add_filter( 'statify_targets_cache_expiry', 'cache_seconds' );`
+
+If you set the value to 0 seconds, the existing cache will be delete once and cache is deactivated. 
+
 
 = Show pages and posts together =
 
@@ -181,6 +194,11 @@ Properties
 
 
 == Changelog ==
+
+= 1.4.1 =
+
+* Add filter for customize cache expiry time.
+* Remove permitted tags and reduce number of tags to five.
 
 = 1.4.0 =
 

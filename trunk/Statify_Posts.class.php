@@ -197,12 +197,17 @@ class Statify_Posts {
 	* Return all targets from statify and saved the values for 4 minutes.
 	*
 	* @since   1.1
+	* @change  1.4.1
 	*/
 
 	public static function get_all_targets($interval)
 	{
+		/* Save values for default 4 minutes */
+		$expiry_seconds = apply_filters( 'statify_targets_cache_expiry', 60 * 4 );
+	
 		/* Look for cached values */
 		if ($data = get_transient('statify_targets_'.$interval)) {
+			if ($expiry_seconds == 0) delete_transient('statify_targets_'.$interval);
 			return $data;
 		}
 		
@@ -225,11 +230,12 @@ class Statify_Posts {
 				ARRAY_A
 			);
 		}
-
-		/* Save values for 4 minutes */
-		set_transient(
-			'statify_targets_'.$interval, $data, 60 * 4 // = 4 minutes.
-		);
+		
+		if ($expiry_seconds > 0) {
+			set_transient(
+				'statify_targets_'.$interval, $data, $expiry_seconds
+			);
+		}
 
 		return $data;
 	}

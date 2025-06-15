@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: statify-widget\n"
 "POT-Creation-Date: 2019-07-31 12:49+0200\n"
-"PO-Revision-Date: 2025-06-13 17:12+0200\n"
+"PO-Revision-Date: 2025-06-15 20:42+0200\n"
 "Last-Translator: \n"
 "Language-Team: Finn Dohrn, www.bit01.de\n"
 "Language: de\n"
@@ -55,12 +55,8 @@ msgid "Post category:"
 msgstr "Beitrags-Kategorie:"
 
 #: statify-widget.php:89
-msgid "Last "
-msgstr "Letzten "
-
-#: statify-widget.php:91
-msgid " days. (If enough stats exists)"
-msgstr " Tage. (wenn ausreichend Daten)"
+msgid "Amount of days:"
+msgstr "Anzahl der Tage:"
 
 #: statify-widget.php:92
 msgid "0 days = show all items"
