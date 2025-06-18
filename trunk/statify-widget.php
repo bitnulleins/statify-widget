@@ -9,13 +9,18 @@ Plugin URI: http://www.bit01.de/blog/statify-widget/
 Version: 1.4.1
 */
 
+/* Quit */
+defined( 'ABSPATH' ) || exit;
+
+define('STATIFY_WIDGET_DEFAULT_AMOUNT', 5);
+define('STATIFY_WIDGET_DEFAULT_POST_TYPE','post');
+define('STATIFY_WIDGET_DEFAULT_INTERVAL', 0);
+define('STATIFY_WIDGET_DEFAULT_SUFFIX', '');
+define('STATIFY_WIDGET_DEFAULT_TRANSIENT_PREFIX', 'statify_targets_');
+define('STATIFY_WIDGET_DEFAULT_EXPIRATION', 60 * 4);
+
 require( 'Statify_Post.class.php' );
 require( 'Statify_Posts.class.php' );
-
-define('DEFAULT_AMOUNT', 5);
-define('DEFAULT_POST_TYPE','post');
-define('DEFAULT_INTERVAL', 0);
-define('DEFAULT_SUFFIX', '');
 
 class StatifyWidget extends WP_Widget {
 
@@ -40,9 +45,9 @@ class StatifyWidget extends WP_Widget {
 	function form($instance) {
 		$instance = wp_parse_args( (array) $instance, array(
 			'title' => '',
-			'amount' => DEFAULT_AMOUNT,
-			'post_type' => DEFAULT_POST_TYPE,
-			'interval' => DEFAULT_INTERVAL,
+			'amount' => STATIFY_WIDGET_DEFAULT_AMOUNT,
+			'post_type' => STATIFY_WIDGET_DEFAULT_POST_TYPE,
+			'interval' => STATIFY_WIDGET_DEFAULT_INTERVAL,
 			'show_visits' => 0,
 			'list_style_type' => "ol",
 			'suffix' => __("%VIEWS% views",'statify-widget'),
@@ -116,14 +121,14 @@ class StatifyWidget extends WP_Widget {
 	function update($new_instance, $old_instance) {
 		$instance = array();
 		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? sanitize_text_field( $new_instance['title'] ) : '';
-		$instance['post_type'] = ( ! empty( $new_instance['post_type'] ) ) ? $new_instance['post_type'] : DEFAULT_POST_TYPE;
+		$instance['post_type'] = ( ! empty( $new_instance['post_type'] ) ) ? $new_instance['post_type'] : STATIFY_WIDGET_DEFAULT_POST_TYPE;
 		if(! empty( $new_instance['interval'] ) && $new_instance['interval'] != $old_instance['interval']) {
 			delete_transient('statify_targets_'.$old_instance['interval']);
 		}
-		$instance['interval'] = ( ! empty( $new_instance['interval'] ) ) ? $new_instance['interval'] : DEFAULT_INTERVAL;
-		$instance['amount'] = ( ! empty( $new_instance['amount'] ) ) ? sanitize_text_field( $new_instance['amount'] ) : DEFAULT_AMOUNT;
+		$instance['interval'] = ( ! empty( $new_instance['interval'] ) ) ? $new_instance['interval'] : STATIFY_WIDGET_DEFAULT_INTERVAL;
+		$instance['amount'] = ( ! empty( $new_instance['amount'] ) ) ? sanitize_text_field( $new_instance['amount'] ) : STATIFY_WIDGET_DEFAULT_AMOUNT;
 		$instance['show_visits'] = ( ! empty( $new_instance['show_visits'] ) ) ? $new_instance['show_visits'] : 0;
-		$instance['suffix'] = ( ! empty( $new_instance['suffix'] ) ) ? sanitize_text_field( $new_instance['suffix'] ) : DEFAULT_SUFFIX;
+		$instance['suffix'] = ( ! empty( $new_instance['suffix'] ) ) ? sanitize_text_field( $new_instance['suffix'] ) : STATIFY_WIDGET_DEFAULT_SUFFIX;
 		$instance['post_category'] = ( ! empty( $new_instance['post_category'] ) ) ? sanitize_text_field( $new_instance['post_category'] ) : 0;
 		return $instance;
 	}
@@ -161,11 +166,11 @@ class StatifyWidget extends WP_Widget {
 		echo $before_widget;
 
 		$title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']);
-		$amount = empty($instance['amount']) ? DEFAULT_AMOUNT : $instance['amount'];
-		$post_type = empty($instance['post_type']) ? DEFAULT_POST_TYPE : $instance['post_type'];
-		$interval = empty($instance['interval']) ? DEFAULT_INTERVAL : $instance['interval'];
+		$amount = empty($instance['amount']) ? STATIFY_WIDGET_DEFAULT_AMOUNT : $instance['amount'];
+		$post_type = empty($instance['post_type']) ? STATIFY_WIDGET_DEFAULT_POST_TYPE : $instance['post_type'];
+		$interval = empty($instance['interval']) ? STATIFY_WIDGET_DEFAULT_INTERVAL : $instance['interval'];
 		$show_visits = empty($instance['show_visits']) ? 0 : 1;
-		$suffix_text =  empty($instance['suffix']) ? DEFAULT_SUFFIX : $instance['suffix'];
+		$suffix_text =  empty($instance['suffix']) ? STATIFY_WIDGET_DEFAULT_SUFFIX : $instance['suffix'];
 		$post_category = empty($instance['post_category']) ? 0 : $instance['post_category'];
 
 		if (!empty($title)) echo $before_title . $title . $after_title;
@@ -282,4 +287,33 @@ function statify_widget_load_textdomain() {
 }
 
 add_action( 'init', 'statify_widget_load_textdomain' );
+
+/**
+ * Remove all Statify Widget transients, if deactivate plugin.
+ * @since 1.4.1
+ */
+function get_transient_keys_with_prefix( $prefix ) {
+	global $wpdb;
+
+	$prefix = $wpdb->esc_like( '_transient_' . $prefix );
+	$sql    = "SELECT `option_name` FROM $wpdb->options WHERE `option_name` LIKE '%s'";
+	$keys   = $wpdb->get_results( $wpdb->prepare( $sql, $prefix . '%' ), ARRAY_A );
+
+	if ( is_wp_error( $keys ) ) {
+		return [];
+	}
+
+	return array_map( function( $key ) {
+		return substr( $key['option_name'], strlen( '_transient_' ) );
+	}, $keys );
+}
+
+register_deactivation_hook(
+	__FILE__,
+	function() {
+		foreach ( get_transient_keys_with_prefix( STATIFY_WIDGET_DEFAULT_TRANSIENT_PREFIX ) as $key ) {
+			delete_transient( $key );
+		}
+	}
+);
 ?>

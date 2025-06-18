@@ -81,15 +81,15 @@ Statify has not added statistics yet. Wait some days to collect some statistics 
 
 = Can I change the default cache expiry time? =
 
-Yes! Since 1.4.1 you can add the following filter to change the **default 4 minutes cache** (`60 * 4`) to another value in seconds:
+Yes! Since 1.4.1 you can add the following filter to change the **default 4 minute cache** (60 * 4) to another value in seconds:
 
-`function cache_seconds() {
-    return 60 * 4;
-}
-add_filter( 'statify_targets_cache_expiry', 'cache_seconds' );`
+`add_filter( 'statify_targets_cache_expiration', fn() => 60*4 );`
 
-If you set the value to 0 seconds, the existing cache will be delete once and cache is deactivated. 
+If you do not set a numerical value greater than zero (>0), the standard cache expiry time is automatically used.
 
+= I set the cache too high (remove cache) =
+
+If you deactivate the plugin, all existing cache will be delete. After that you can activate *Statify Widget* again. Everything continues to work as usual.
 
 = Show pages and posts together =
 
@@ -197,8 +197,9 @@ Properties
 
 = 1.4.1 =
 
-* Add filter for customize cache expiry time.
-* Remove permitted tags and reduce number of tags to five.
+* Add filter for customize cache expiry time (new FAQ section!)
+* If you now deactivate plugin, all existing cache will be removed (new FAQ section!)
+* Remove permitted tags and reduce number of tags to five
 
 = 1.4.0 =
 
