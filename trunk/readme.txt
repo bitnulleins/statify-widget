@@ -195,6 +195,10 @@ Properties
 
 == Changelog ==
 
+= 1.4.4 =
+
+* Add again filter for "frontpage" fallback if 'posts' in widget.
+
 = 1.4.3 =
 
 * Fix bug that crashes the whole plugin.

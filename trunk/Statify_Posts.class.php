@@ -22,8 +22,9 @@ class Statify_Posts {
 		foreach ($targets as $entry) {
 			$clear_url = str_replace($wpurl['host'],"",$entry['url']);
 			
-			// Add "frontpage" view counter, if post_type page/postpage and blog view is frontpage
+			// Add "frontpage" view counter if blog view is frontpage
 			if ($clear_url == '/' && 'page' != get_option('show_on_front')) {
+				if ($post_type != 'page' && $post_type != 'postpage') continue;
 				if (!isset($posts[0])) $posts[0] = 0;
 				$posts[0] += $entry['count'];
 				continue;
