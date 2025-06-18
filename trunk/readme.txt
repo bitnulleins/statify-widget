@@ -195,6 +195,10 @@ Properties
 
 == Changelog ==
 
+= 1.4.2 =
+
+* Fix small bug, that displayed "frontpage" (if blog view is activated) in 'posts' widgets.
+
 = 1.4.1 =
 
 * Add filter for customize cache expiry time (new FAQ section!)
