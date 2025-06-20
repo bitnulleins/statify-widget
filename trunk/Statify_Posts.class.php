@@ -203,7 +203,6 @@ class Statify_Posts {
 
 	public static function get_all_targets($interval)
 	{
-		/* Save values for default 4 minutes */
 		$expiry_seconds = apply_filters( 'statify_targets_cache_expiry', STATIFY_WIDGET_DEFAULT_EXPIRATION );
 		if (!is_numeric($expiry_seconds) || $expiry_seconds < 0) {
 			$expiry_seconds = STATIFY_WIDGET_DEFAULT_EXPIRATION;
