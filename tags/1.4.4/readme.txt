@@ -1,6 +1,6 @@
 === Statify Widget ===
 Contributors: 		bitnulleins
-Tags: 			    widget, popular posts, privacy, statistics, analytics
+Tags: 			    statify, widget, popular posts, privacy, stats
 Requires at least: 	4.6
 Tested up to: 		6.8.1
 Requires PHP: 		5.2.4
@@ -195,10 +195,6 @@ Properties
 
 == Changelog ==
 
-= 1.4.5 =
-
-* Conversion of the interval calculation from PHP UTC to the selected WordPress time zone
-
 = 1.4.4 =
 
 * Add again filter for "frontpage" fallback if 'posts' in widget.
@@ -226,6 +222,7 @@ Properties
 * Correction of the totals of views from Statify data (if a page is selected as the start page, the views of the start page and the selected page are combined). The “Blog” page is now recorded independently
 * Support for up to PHP 8.4 enabled
 * Text display if no posts exist yet included in translation
+* Conversion of the interval calculation from PHP UTC to the selected WordPress time zone
 * Correction of the total sum in the shortcode (was always one too few)
 * Change of the relation in the SQL statement from “greater than or equal to” to “really greater”
 

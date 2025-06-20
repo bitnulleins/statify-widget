@@ -213,9 +213,9 @@ class Statify_Posts {
 		}
 		
 		if ($interval > 0) {
-			$timezone = new DateTimeZone(wp_timezone_string());
-			$datetime = new DateTime('now', $timezone);
-			$date = $datetime->modify("-{$interval} days")->format('Y-m-d');
+			$current_time = current_time('timestamp');
+			$interval_time = $current_time - ($interval * DAY_IN_SECONDS);
+			$date = date("Y-m-d", $interval_time);
 		}
 
 		global $wpdb;
