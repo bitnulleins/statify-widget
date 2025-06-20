@@ -83,7 +83,7 @@ Statify has not added statistics yet. Wait some days to collect some statistics 
 
 Yes! Since 1.4.1 you can add the following filter to change the **default 4 minute cache** (60 * 4) to another value in seconds:
 
-`add_filter( 'statify_targets_cache_expiration', fn() => 60*4 );`
+`add_filter( 'statify_targets_cache_expiry', fn() => 60*4 );`
 
 If you do not set a numerical value greater than zero (>0), the standard cache expiry time is automatically used.
 
