@@ -6,7 +6,7 @@ Text Domain: statify-widget
 Author: Finn Dohrn
 Author URI: http://www.bit01.de/
 Plugin URI: http://www.bit01.de/blog/statify-widget/
-Version: 1.4.6
+Version: 1.4.5
 */
 
 /* Quit */
@@ -316,17 +316,4 @@ register_deactivation_hook(
 		}
 	}
 );
-
-/**
- * Add JS to widget for dynamic category selection
- * @since 1.4.6
- */
-add_action( 'admin_enqueue_scripts', 'statify_widget_admin_scripts' );
-function statify_widget_admin_scripts( $hook ) {
-    if ( 'widgets.php' !== $hook && 'customize.php' !== $hook ) {
-        return;
-    }
-
-    wp_enqueue_script( 'statify-widget-js', plugins_url( '/js/statify_widget.js', __FILE__ ));
-}
 ?>

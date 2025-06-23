@@ -198,13 +198,13 @@ class Statify_Posts {
 	* Return all targets from statify and saved the values for 4 minutes.
 	*
 	* @since   1.1
-	* @change  1.4.6
+	* @change  1.4.5
 	*/
 
 	public static function get_all_targets($interval)
 	{
 		$expiry_seconds = apply_filters( 'statify_targets_cache_expiry', STATIFY_WIDGET_DEFAULT_EXPIRATION );
-		if (!is_numeric($expiry_seconds) || $expiry_seconds <= 0) {
+		if (!is_numeric($expiry_seconds) || $expiry_seconds < 0) {
 			$expiry_seconds = STATIFY_WIDGET_DEFAULT_EXPIRATION;
 		}
 		
@@ -214,11 +214,7 @@ class Statify_Posts {
 		}
 		
 		if ($interval > 0) {
-			if (function_exists('wp_timezone_string')) {
-				$timezone = new DateTimeZone(wp_timezone_string());
-			} else {
-				$timezone = new DateTimeZone(get_option('timezone_string'));
-			}
+			$timezone = new DateTimeZone(wp_timezone_string());
 			$datetime = new DateTime('now', $timezone);
 			$date = $datetime->modify("-{$interval} days")->format('Y-m-d');
 		}
