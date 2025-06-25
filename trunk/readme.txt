@@ -199,6 +199,7 @@ Properties
 
 * Accept only filter minute values >0 (not smaller than zero)
 * Reactivate category selection for "post" type in widget (without extra jQuery)
+* Reduce number of queries. That boost performance for websites with many pages.
 
 = 1.4.5 =
 
