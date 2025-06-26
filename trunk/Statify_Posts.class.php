@@ -227,9 +227,9 @@ class Statify_Posts {
 		";
 
 		$data = $wpdb->get_results($query, ARRAY_A);
-
-		if ($interval > 0) {
-			$map = array_column(self::get_all_targets(), 'id', 'url');
+		
+		if ($all_transient = get_transient(STATIFY_WIDGET_DEFAULT_TRANSIENT_PREFIX."0")) {
+			$map = array_column($all_transient, 'id', 'url');
 			foreach ($data as &$item) {
 				$item['id'] = $map[$item['url']] ?? 0;
 			}
