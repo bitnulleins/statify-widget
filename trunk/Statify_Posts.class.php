@@ -48,7 +48,9 @@ class Statify_Posts {
 					// When category is select, then ignore other posts!
 					if ($post_type == 'post' && $post_category > 0) {
 						$categories = get_the_category($page->ID);
-						foreach($categories as $category) $termIDArray[] = $category->term_id;
+						if ( ! empty( $categories ) && is_array( $categories ) ) {
+							foreach($categories as $category) $termIDArray[] = $category->term_id;
+						}
 						if (!in_array($post_category,$termIDArray)) continue;
 					}
 					
@@ -164,8 +166,14 @@ class Statify_Posts {
 			'suffix' => __('views','statify-widget'),
 			'days' => 0
 		), $atts );
+		
+		$prefix = trim( $a['prefix'] );
+		$suffix = trim( $a['suffix'] );
+		$days   = intval( $a['days'] );
 
-		return $a['prefix'] . " " . self::statify_count($post->ID, $a['days']) . " " . $a['suffix'];
+		$count = intval( self::statify_count( $post->ID, $days ) );
+
+		return esc_html( $prefix ) . ' ' . $count . ' ' . esc_html( $suffix );
 	}
 
 	/**

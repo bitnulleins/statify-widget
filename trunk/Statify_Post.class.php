@@ -223,8 +223,7 @@ final class Statify_Post {
 	 * @param WP_Post|object $post Post object.
 	 */
 	public function __construct( $post_id, $views ) {
-		if ($post_id > 0) {
-			$post = get_page($post_id);
+		if ($post_id > 0 && $post = get_post($post_id)) {
 			foreach ( get_object_vars( $post ) as $key => $value ) {
 				if (property_exists($this, $key)) {
 					$this->$key = $value;
@@ -236,7 +235,6 @@ final class Statify_Post {
 			$this->post_title = __('Frontpage','statify-widget');
 			$this->post_permalink = get_home_url();
 		}
-		
 		
 		// Default both attributes
 		$this->post_views = $views;

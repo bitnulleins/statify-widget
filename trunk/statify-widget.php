@@ -6,7 +6,7 @@ Text Domain: statify-widget
 Author: Finn Dohrn
 Author URI: http://www.bit01.de/
 Plugin URI: http://www.bit01.de/blog/statify-widget/
-Version: 1.4.6
+Version: 1.4.7
 */
 
 /* Quit */
@@ -119,17 +119,17 @@ class StatifyWidget extends WP_Widget {
 	* Override old instance with new instance.
 	*/
 	function update($new_instance, $old_instance) {
-		$instance = array();
-		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? sanitize_text_field( $new_instance['title'] ) : '';
-		$instance['post_type'] = ( ! empty( $new_instance['post_type'] ) ) ? $new_instance['post_type'] : STATIFY_WIDGET_DEFAULT_POST_TYPE;
 		if(! empty( $new_instance['interval'] ) && $new_instance['interval'] != $old_instance['interval']) {
 			delete_transient('statify_targets_'.$old_instance['interval']);
 		}
-		$instance['interval'] = ( ! empty( $new_instance['interval'] ) ) ? $new_instance['interval'] : STATIFY_WIDGET_DEFAULT_INTERVAL;
-		$instance['amount'] = ( ! empty( $new_instance['amount'] ) ) ? sanitize_text_field( $new_instance['amount'] ) : STATIFY_WIDGET_DEFAULT_AMOUNT;
-		$instance['show_visits'] = ( ! empty( $new_instance['show_visits'] ) ) ? $new_instance['show_visits'] : 0;
+		
+		$instance = array();
+		$instance['post_type'] = ( ! empty( $new_instance['post_type'] ) ) ? sanitize_key( $new_instance['post_type'] ) : STATIFY_WIDGET_DEFAULT_POST_TYPE;
+$instance['interval'] = ( ! empty( $new_instance['interval'] ) ) ? intval( $new_instance['interval'] ) : STATIFY_WIDGET_DEFAULT_INTERVAL;
+$instance['amount'] = ( ! empty( $new_instance['amount'] ) ) ? intval( $new_instance['amount'] ) : STATIFY_WIDGET_DEFAULT_AMOUNT;
+$instance['show_visits'] = ! empty( $new_instance['show_visits'] ) ? 1 : 0;
+$instance['post_category'] = ( ! empty( $new_instance['post_category'] ) ) ? intval( $new_instance['post_category'] ) : 0;
 		$instance['suffix'] = ( ! empty( $new_instance['suffix'] ) ) ? sanitize_text_field( $new_instance['suffix'] ) : STATIFY_WIDGET_DEFAULT_SUFFIX;
-		$instance['post_category'] = ( ! empty( $new_instance['post_category'] ) ) ? sanitize_text_field( $new_instance['post_category'] ) : 0;
 		return $instance;
 	}
 	
@@ -140,14 +140,17 @@ class StatifyWidget extends WP_Widget {
 	function statify_widget_template($posts) {
 	?>
 			<?php if ( empty($posts) ): ?>
-			<p><?php __( 'There are no posts yet.','statify-widget' ) ?></p>
+			<p><?php _e( 'There are no posts yet.','statify-widget' ) ?></p>
 			<?php else: ?>
 
 			<ol class="statify-widget-list">
 				<?php foreach ($posts as $post): ?>
 				<li class="statify-widget-element">
 					<?php echo do_action( "statify_widget_before_link", $post); ?>
-					<a class='statify-widget-link' title='<?php echo $post->post_title ?>' href='<?php echo $post->post_permalink ?>'><?php echo $post->post_title ?></a> <?php if (isset($post->post_suffix)) echo "<span>". $post->post_suffix ."</span>" ?>
+					<a class="statify-widget-link"
+					   title="<?php echo esc_attr( $post->post_title ); ?>"
+					   href="<?php echo esc_url( $post->post_permalink ); ?>"><?php echo esc_html( $post->post_title ); ?></a>
+					<?php if ( isset( $post->post_suffix ) ) echo '<span>' . esc_html( $post->post_suffix ) . '</span>'; ?>
 					<?php echo do_action( "statify_widget_after_link", $post); ?>
 				</li>
 				<?php endforeach; ?>
@@ -173,7 +176,7 @@ class StatifyWidget extends WP_Widget {
 		$suffix_text =  empty($instance['suffix']) ? STATIFY_WIDGET_DEFAULT_SUFFIX : $instance['suffix'];
 		$post_category = empty($instance['post_category']) ? 0 : $instance['post_category'];
 
-		if (!empty($title)) echo $before_title . $title . $after_title;
+		if ( ! empty( $title ) ) echo $before_title . esc_html( $title ) . $after_title;
 		
 		$posts = Statify_Posts::get_posts($post_type, $post_category, $amount, $interval);
 		
@@ -205,7 +208,7 @@ class StatifyWidget extends WP_Widget {
 */
 function showErrorMessages() {
 	$html = '<div class="error"><p>';
-	$html .= __( 'Please install <a target="_blank" href="http://wordpress.org/plugins/statify/">Statify</a> plugin first.','statify-widget');
+	$html .= wp_kses_post( 'Please install <a target="_blank" href="http://wordpress.org/plugins/statify/">Statify</a> plugin first.','statify-widget');
 	$html .= '</p></div>';
 	echo $html;
 }
