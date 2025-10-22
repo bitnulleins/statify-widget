@@ -195,6 +195,10 @@ Properties
 
 == Changelog ==
 
+= 1.4.8 = 
+
+* Fix missing translation output, if required plugin "Statify" is missing.
+
 = 1.4.7 =
 
 * Add missing js script

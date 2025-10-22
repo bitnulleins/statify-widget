@@ -6,7 +6,7 @@ Text Domain: statify-widget
 Author: Finn Dohrn
 Author URI: http://www.bit01.de/
 Plugin URI: http://www.bit01.de/blog/statify-widget/
-Version: 1.4.7
+Version: 1.4.8
 */
 
 /* Quit */
@@ -205,10 +205,11 @@ $instance['post_category'] = ( ! empty( $new_instance['post_category'] ) ) ? int
 
 /*
 * Print error message in admin interface
+* @change 1.4.8
 */
 function showErrorMessages() {
 	$html = '<div class="error"><p>';
-	$html .= wp_kses_post( 'Please install <a target="_blank" href="http://wordpress.org/plugins/statify/">Statify</a> plugin first.','statify-widget');
+	$html .= wp_kses_post( __('Please install <a target="_blank" href="http://wordpress.org/plugins/statify/">Statify</a> plugin first.','statify-widget') );
 	$html .= '</p></div>';
 	echo $html;
 }
