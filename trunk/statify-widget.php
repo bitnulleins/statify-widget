@@ -6,7 +6,7 @@ Text Domain: statify-widget
 Author: Finn Dohrn
 Author URI: http://www.bit01.de/
 Plugin URI: http://www.bit01.de/blog/statify-widget/
-Version: 1.4.8
+Version: 1.4.9
 */
 
 /* Quit */
@@ -117,6 +117,7 @@ class StatifyWidget extends WP_Widget {
 
 	/*
 	* Override old instance with new instance.
+	* @change 1.4.9
 	*/
 	function update($new_instance, $old_instance) {
 		if(! empty( $new_instance['interval'] ) && $new_instance['interval'] != $old_instance['interval']) {
@@ -124,11 +125,12 @@ class StatifyWidget extends WP_Widget {
 		}
 		
 		$instance = array();
+		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? sanitize_text_field( $new_instance['title'] ) : NULL;
 		$instance['post_type'] = ( ! empty( $new_instance['post_type'] ) ) ? sanitize_key( $new_instance['post_type'] ) : STATIFY_WIDGET_DEFAULT_POST_TYPE;
-$instance['interval'] = ( ! empty( $new_instance['interval'] ) ) ? intval( $new_instance['interval'] ) : STATIFY_WIDGET_DEFAULT_INTERVAL;
-$instance['amount'] = ( ! empty( $new_instance['amount'] ) ) ? intval( $new_instance['amount'] ) : STATIFY_WIDGET_DEFAULT_AMOUNT;
-$instance['show_visits'] = ! empty( $new_instance['show_visits'] ) ? 1 : 0;
-$instance['post_category'] = ( ! empty( $new_instance['post_category'] ) ) ? intval( $new_instance['post_category'] ) : 0;
+		$instance['interval'] = ( ! empty( $new_instance['interval'] ) ) ? intval( $new_instance['interval'] ) : STATIFY_WIDGET_DEFAULT_INTERVAL;
+		$instance['amount'] = ( ! empty( $new_instance['amount'] ) ) ? intval( $new_instance['amount'] ) : STATIFY_WIDGET_DEFAULT_AMOUNT;
+		$instance['show_visits'] = ! empty( $new_instance['show_visits'] ) ? 1 : 0;
+		$instance['post_category'] = ( ! empty( $new_instance['post_category'] ) ) ? intval( $new_instance['post_category'] ) : 0;
 		$instance['suffix'] = ( ! empty( $new_instance['suffix'] ) ) ? sanitize_text_field( $new_instance['suffix'] ) : STATIFY_WIDGET_DEFAULT_SUFFIX;
 		return $instance;
 	}

@@ -195,6 +195,10 @@ Properties
 
 == Changelog ==
 
+= 1.4.9 =
+
+* Fix widget update function for title update
+
 = 1.4.8 = 
 
 * Fix missing translation output, if required plugin "Statify" is missing.
