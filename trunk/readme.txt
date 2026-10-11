@@ -2,7 +2,7 @@
 Contributors: 		bitnulleins
 Tags: 			    widget, popular posts, privacy, statistics, analytics
 Requires at least: 	4.6
-Tested up to: 		7.0
+Tested up to: 		7.1
 Requires PHP: 		5.2.4
 Stable tag: 		trunk
 License: 		    GPLv2 or later
